@@ -1,0 +1,52 @@
+import os
+import glob
+import pandas as pd
+
+# --- Configurações ---
+# Pasta onde o scraper salvou o CSV.
+PASTA_DOWNLOAD = os.path.join(os.getcwd(), "downloads_b3")
+
+# Pasta onde salvaremos o resultado em Parquet.
+PASTA_OUTPUT = os.path.join(os.getcwd(), "output")
+
+# --- Lógica Principal ---
+
+print("Iniciando processo de conversão para Parquet...")
+
+try:
+    # 1. Encontrar o arquivo CSV mais recente na pasta de downloads
+    lista_de_arquivos = glob.glob(os.path.join(PASTA_DOWNLOAD, '*.csv'))
+    if not lista_de_arquivos:
+        raise FileNotFoundError("Nenhum arquivo .csv encontrado na pasta de downloads.")
+    
+    # Pega o arquivo mais recente, caso haja mais de um.
+    caminho_csv = max(lista_de_arquivos, key=os.path.getctime)
+    print(f"Arquivo CSV encontrado: {caminho_csv}")
+
+    # 2. Ler o arquivo CSV para um DataFrame do Pandas
+    df = pd.read_csv(caminho_csv, sep=',', header=1, skipfooter=1, engine='python', encoding='latin1')
+    print("Arquivo CSV lido com sucesso para o DataFrame.")
+    print("Amostra dos dados lidos:")
+    print(df.head())
+
+    # 3. Criar a estrutura de pastas para a partição
+    # Extraímos a data do nome do arquivo (ex: 'IBOV_2025-07-25.csv' -> '2025-07-25')
+    nome_base_arquivo = os.path.basename(caminho_csv)
+    data_pregao = nome_base_arquivo.split('_')[1].replace('.csv', '') # Pega '2025-07-25'
+    
+    # Cria o caminho da partição no formato 'data=YYYY-MM-DD'
+    pasta_particao = os.path.join(PASTA_OUTPUT, f'data={data_pregao}')
+    os.makedirs(pasta_particao, exist_ok=True)
+    print(f"Estrutura de pastas para partição criada em: {pasta_particao}")
+
+    # 4. Salvar o DataFrame como arquivo Parquet
+    caminho_parquet = os.path.join(pasta_particao, 'pregao.parquet')
+    df.to_parquet(caminho_parquet, index=False)
+
+    print("-" * 50)
+    print("SUCESSO! Conversão para Parquet concluída.")
+    print(f"Arquivo salvo em: {caminho_parquet}")
+    print("-" * 50)
+
+except Exception as e:
+    print(f"\nOcorreu um erro durante o processo: {e}")
