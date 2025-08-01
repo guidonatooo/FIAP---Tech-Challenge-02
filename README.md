@@ -1,7 +1,6 @@
 # 📊 Tech Challenge 2 – Pipeline de Dados da B3 (FIAP) ##
-<p align="left">
+
 Este projeto tem como objetivo construir um pipeline de dados **100% serverless na AWS**, realizando a extração, transformação, catalogação e análise dos dados de pregão da B3 (Bolsa de Valores Brasileira), conforme os requisitos do **Tech Challenge 02 da FIAP**.
-</p>
 
 ## 🎯 Objetivo
 
@@ -54,18 +53,18 @@ Automatizar a coleta e o processamento dos dados de negociação da B3, aplicand
 ## 🗂️ Estrutura do Projeto
 
 ```bash
-b3-data-pipeline/
+FIAP---Tech-challenge-02/
 ├── README.md
-├── LICENSE
-├── scripts/
-│   ├── scraper_b3.py
+├── fiap-tech-challenge-2/
+│   ├── __pycache__
+│   ├── downloads_b3
+│   |    └── IBOVDia_25-07-25.csv
+│   ├── output/data=25-07-25
+│   |    └── conversao_parquet
+│   |    └── pregao.parquet
 │   ├── conversao_parquet.py
-│   └── send_aws.py
-├── diagrams/
-│   └── architecture_final.png
-├── docs/
-│   └── project_report.md
-└── screenshots/
-    ├── s3_upload.png
-    ├── glue_job.png
-    └── athena_query.png
+│   ├── diagnostico.py
+|   ├── diagrama.jpg
+│   ├── scraper_b3.py
+└── └── send_aws.py
+
