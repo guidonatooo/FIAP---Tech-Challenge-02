@@ -2,6 +2,8 @@
 
 Este projeto tem como objetivo construir um pipeline de dados **100% serverless na AWS**, realizando a extração, transformação, catalogação e análise dos dados de pregão da B3 (Bolsa de Valores Brasileira), conforme os requisitos do **Tech Challenge 02 da FIAP**.
 
+https://gemini.google.com/share/fc4a92c225e5 - ````Link para página de apresentação````
+
 ## 🎯 Objetivo
 
 Automatizar a coleta e o processamento dos dados de negociação da B3, aplicando boas práticas de arquitetura em nuvem, engenharia de dados e serviços AWS como S3, Lambda, Glue e Athena.
